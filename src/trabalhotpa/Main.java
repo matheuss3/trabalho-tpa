@@ -26,13 +26,16 @@ public class Main {
         int opcao;
         menu();
         opcao = s.nextInt();
+        
         String nome;
+        int telefone;
+        String cidade;
+        String pais;
         
         while (opcao != 0) {
             switch(opcao){ //apenas uma opção
                 case 1:
-                    
-                    s.nextLine();
+                    s.nextLine(); //pegando residuo
                     System.out.println("\nDigite o nome completo do contato que deseja localizar:");
                     nome = s.nextLine();
                     Contato a = hash.localizar(nome);
@@ -46,22 +49,68 @@ public class Main {
                     }  
                     break;
                 case 2: 
+                    s.nextLine(); //pegando residuo
                     System.out.println("\nContato de " + c.getNomeCompleto() + " inserido com sucesso!\n");
                     hash.inserir(c);
                     System.out.println("\nContato de " + b.getNomeCompleto() + " inserido com sucesso!\n");
                     hash.inserir(b);
+                    
+                    System.out.println("Digite nome completo de contato: ");
+                    nome = s.nextLine();
+                    
+                    System.out.println("\nDigite número de telefone: ");
+                    telefone = s.nextInt();
+                    
+                    s.nextLine(); //pegando residuo
+                    System.out.println("\nDigite a cidade: ");
+                    cidade = s.nextLine();
+
+                    System.out.println("\nDigite o país: ");
+                    pais = s.nextLine();
+                    
+                    Contato d = new Contato(nome, telefone, cidade, pais);
+                    hash.inserir(d);
+                    
+                    System.out.println("\nContato de " + nome + " inserido com sucesso!\n");
+                    
+                    
                     break;
 
                 case 3:    
+                    s.nextLine(); //pegando residuo
                     System.out.println("\nDigite o nome completo do contato que deseja excluir:");
                     nome = s.nextLine();
                     hash.excluir(nome);
-                    System.out.println("\nContato excluido com sucesso!");
+                    System.out.println("\nContato de " + nome + " excluido com sucesso!");
                     break;
                 case 4:
-                    hash.atualizar(99606060,"vix","EUA","Thais");
-                    System.out.println("Dados atualizados com sucesso!");
-                    hash.imprimeContato("Thais");
+                    s.nextLine(); //pegando residuo
+                    System.out.println("\nDigite o nome completo do contato que deseja atualizar:");
+                    nome = s.nextLine();
+                    Contato l = hash.localizar(nome);
+                    
+                    if (l != null){
+                        
+                        System.out.println("\nSeu número de telefone antigo era: " + l.getTelefone());
+                        System.out.println("\nDigite seu novo número de telefone: ");
+                        telefone = s.nextInt();
+
+                        s.nextLine(); //pegando residuo
+                        System.out.println("\nSua cidade antiga era: " + l.getCidade());
+                        System.out.println("\nDigite sua nova cidade: ");
+                        cidade = s.nextLine();
+
+                        System.out.println("\nSeu país antigo era: " + l.getPais());
+                        System.out.println("\nDigite seu novo país: ");
+                        pais = s.nextLine();
+
+                        hash.atualizar(telefone,cidade,pais,nome);
+                        System.out.println("\nDados atualizados com sucesso!");
+                        hash.imprimeContato(nome);
+                    }
+                    else{
+                        System.out.println("Contato não foi localizado!");
+                    }
                     break;    
                 case 5:
                     hash.salvar();
@@ -74,5 +123,3 @@ public class Main {
         }
     } 
 }
-
-
