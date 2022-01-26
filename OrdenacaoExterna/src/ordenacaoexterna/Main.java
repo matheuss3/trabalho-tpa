@@ -1,4 +1,4 @@
-package ordenadorarquivo;
+package ordenacaoexterna;
 
 import java.io.IOException;
 

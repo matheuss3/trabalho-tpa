@@ -1,4 +1,4 @@
-package ordenadorarquivo;
+package ordenacaoexterna;
 
 public class Contato implements Comparable<Contato> {
     private String nome;
