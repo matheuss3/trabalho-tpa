@@ -19,9 +19,6 @@ public class Main {
         
         Scanner s = new Scanner(System.in);
         Hash hash = new Hash();
-
-        Contato c = new Contato("Thais",89123897,"Vitória","Brasil");
-        Contato b = new Contato("Matheus de Souza",999999999,"Vitória","Brasil");
         
         int opcao;
         menu();
@@ -50,11 +47,7 @@ public class Main {
                     break;
                 case 2: 
                     s.nextLine(); //pegando residuo
-                    System.out.println("\nContato de " + c.getNomeCompleto() + " inserido com sucesso!\n");
-                    hash.inserir(c);
-                    System.out.println("\nContato de " + b.getNomeCompleto() + " inserido com sucesso!\n");
-                    hash.inserir(b);
-                    
+                                        
                     System.out.println("Digite nome completo de contato: ");
                     nome = s.nextLine();
                     
@@ -72,8 +65,6 @@ public class Main {
                     hash.inserir(d);
                     
                     System.out.println("\nContato de " + nome + " inserido com sucesso!\n");
-                    
-                    
                     break;
 
                 case 3:    
