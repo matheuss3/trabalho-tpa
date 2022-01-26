@@ -1,10 +1,6 @@
-package trabalhotpa;
+package tabelahash;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class Hash {
@@ -58,14 +54,21 @@ public class Hash {
         
         int chave = calculaChave(c.getNomeCompleto());
         Elemento e = hashContato.get(chave);  //pega o elemento armazenado na hash
-        
+
+        Contato c1 = localizar(c.getNomeCompleto());
+        if (c1 != null) {
+            System.out.println("Contato Existente");
+            return;
+        }
+
         if (e.ocupado == false){ //posição vazia
             e.ocupado = true;    //seta posição para ocupado
             e.c = c;    //armazena o contato
         }
         else{//tratar colisão
             trataColisao(e,c); //preciso percorrer os proximos nós ate q seja null, dps insiro onde for null
-        } 
+        }
+        System.out.println("Contato inserido com sucesso!");
     }
 
     public Contato localizar(String nome){  //localiza contato
@@ -113,19 +116,18 @@ public class Hash {
     public void salvar(){ //salva dados
         
         try{       
-            FileWriter fw = new FileWriter("AgendaTeste1M.csv"); 
+            FileWriter fw = new FileWriter("./arquivos/contatos.csv");
             BufferedWriter bw = new BufferedWriter(fw);
-            
+
             for (Elemento e : this.hashContato){
-                if (e.listaproximos == null){
-                    bw.write(e.c.contatoToString() + "\n");
-                }
-                else{
+                if (e.ocupado) bw.write(e.c.contatoToString() + "\n");
+
+                if (!e.listaproximos.isEmpty()){
                     for (Contato cont : e.listaproximos){
                         bw.write(cont.contatoToString() + "\n");
                     }
                 }
-            }   
+            }
             bw.close();
             System.out.println("Contato salvo com sucesso!");
         }
@@ -137,7 +139,7 @@ public class Hash {
     public void ler(){ //Vou ler o arquivo de contatos (Agenda) e salvar no array
         try{
             
-            FileReader fr = new FileReader("AgendaTeste1M.csv");
+            FileReader fr = new FileReader("./arquivos/contatos.csv");
             BufferedReader br = new BufferedReader(fr);
             String linha = br.readLine();
             

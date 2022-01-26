@@ -1,4 +1,4 @@
-package trabalhotpa;
+package tabelahash;
 
 import java.util.Scanner;
     
@@ -19,6 +19,7 @@ public class Main {
         
         Scanner s = new Scanner(System.in);
         Hash hash = new Hash();
+        hash.ler();
         
         int opcao;
         menu();
@@ -63,8 +64,7 @@ public class Main {
                     
                     Contato d = new Contato(nome, telefone, cidade, pais);
                     hash.inserir(d);
-                    
-                    System.out.println("\nContato de " + nome + " inserido com sucesso!\n");
+
                     break;
 
                 case 3:    

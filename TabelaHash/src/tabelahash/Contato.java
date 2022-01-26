@@ -1,8 +1,4 @@
-package trabalhotpa;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.ArrayList;
+package tabelahash;
 
 public class Contato {
     private String nomeCompleto;
