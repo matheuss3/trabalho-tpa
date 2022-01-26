@@ -22,6 +22,7 @@ public class Hash {
             Elemento e = new Elemento();
             e.c = null;
             e.ocupado = false;   
+            e.listaproximos = new ArrayList<>();
             hashContato.add(e);
         }
     }
@@ -38,6 +39,11 @@ public class Hash {
         return chave;
     }
     
+    public void trataColisao(Elemento e, Contato c){
+        
+        e.listaproximos.add(c);
+    }
+    
     public void imprimeContato(String nome){
         
         int chave = calculaChave(nome);
@@ -51,17 +57,32 @@ public class Hash {
     public void inserir(Contato c) {  //insere novo contato
         
         int chave = calculaChave(c.getNomeCompleto());
-        Elemento e = hashContato.get(chave);  //pega o elemento armazenado
-        e.ocupado = true;    //seta posição para ocupado
-        e.c = c;    //armazena o contato
+        Elemento e = hashContato.get(chave);  //pega o elemento armazenado na hash
+        
+        if (e.ocupado == false){ //posição vazia
+            e.ocupado = true;    //seta posição para ocupado
+            e.c = c;    //armazena o contato
+        }
+        else{//tratar colisão
+            trataColisao(e,c); //preciso percorrer os proximos nós ate q seja null, dps insiro onde for null
+        } 
     }
 
     public Contato localizar(String nome){  //localiza contato
         
         int chave = calculaChave(nome);
         Elemento e = hashContato.get(chave);
-        if (e.ocupado == true){
-            return e.c;
+        if (e.ocupado == true){ //tem contato dentro
+            if (e.listaproximos.isEmpty()){  //apenas um contato dentro
+                return e.c;
+            }
+            else{ //tem que achar qual é pelo nome, uma vez que os nomes não serao iguais
+                for (Contato cont : e.listaproximos){
+                    if (cont.getNomeCompleto().equals(nome)){
+                        return cont;
+                    }
+                }
+            }   
         }
         return null;
     }
@@ -70,17 +91,23 @@ public class Hash {
         
         int chave = calculaChave(nome);
         Elemento e = hashContato.get(chave);
-        e.c = null;
-        e.ocupado = false;  
+        
+        if (e.listaproximos.isEmpty()){
+            e.c = null;
+            e.ocupado = false;
+        }
+        else{
+            Contato cont = localizar(nome);
+            e.listaproximos.remove(cont);
+        }
     }
 
     public void atualizar(int tel, String cid, String p, String nome){  //atualiza contato
-                
-        int chave = calculaChave(nome);
-        Elemento e = hashContato.get(chave);
-        e.c.setTelefone(tel);
-        e.c.setCidade(cid);
-        e.c.setPais(p);
+      
+        Contato cont = localizar(nome);
+        cont.setTelefone(tel);
+        cont.setCidade(cid);
+        cont.setPais(p); 
     }
 
     public void salvar(){ //salva dados
@@ -90,9 +117,17 @@ public class Hash {
             BufferedWriter bw = new BufferedWriter(fw);
             
             for (Elemento e : this.hashContato){
-                bw.write(e.c.contatoToString() + "\n"); 
+                if (e.listaproximos == null){
+                    bw.write(e.c.contatoToString() + "\n");
+                }
+                else{
+                    for (Contato cont : e.listaproximos){
+                        bw.write(cont.contatoToString() + "\n");
+                    }
+                }
             }   
             bw.close();
+            System.out.println("Contato salvo com sucesso!");
         }
         catch(IOException e){ 
             System.out.println("---- Erro ao tentar salvar no arquivo! ----");
