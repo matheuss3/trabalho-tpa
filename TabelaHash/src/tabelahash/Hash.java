@@ -5,12 +5,14 @@ import java.util.ArrayList;
 
 public class Hash {
     ArrayList<Elemento> hashContato;
-    static int MAXtamanho = 20000;
+    static int MAXtamanho = 1131071;
+    public int qtdColisoes;
      
     public Hash(){
         
         hashContato = new ArrayList<>();
-        this.inicializaTabela();       
+        this.inicializaTabela(); 
+        this.qtdColisoes = 0;
     }
     
     public void inicializaTabela(){  // inicializando tabela hash
@@ -66,9 +68,9 @@ public class Hash {
             e.c = c;    //armazena o contato
         }
         else{//tratar colisão
+            this.qtdColisoes = this.qtdColisoes + 1;
             trataColisao(e,c); //preciso percorrer os proximos nós ate q seja null, dps insiro onde for null
         }
-        System.out.println("Contato inserido com sucesso!");
     }
 
     public Contato localizar(String nome){  //localiza contato
@@ -105,7 +107,7 @@ public class Hash {
         }
     }
 
-    public void atualizar(int tel, String cid, String p, String nome){  //atualiza contato
+    public void atualizar(String tel, String cid, String p, String nome){  //atualiza contato
       
         Contato cont = localizar(nome);
         cont.setTelefone(tel);
@@ -116,7 +118,7 @@ public class Hash {
     public void salvar(){ //salva dados
         
         try{       
-            FileWriter fw = new FileWriter("./arquivos/contatos.csv");
+            FileWriter fw = new FileWriter("./src/arquivos/contatos1.csv");
             BufferedWriter bw = new BufferedWriter(fw);
 
             for (Elemento e : this.hashContato){
@@ -139,7 +141,7 @@ public class Hash {
     public void ler(){ //Vou ler o arquivo de contatos (Agenda) e salvar no array
         try{
             
-            FileReader fr = new FileReader("./arquivos/contatos.csv");
+            FileReader fr = new FileReader("./src/arquivos/contatos1.csv");
             BufferedReader br = new BufferedReader(fr);
             String linha = br.readLine();
             
