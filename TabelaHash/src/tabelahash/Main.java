@@ -20,13 +20,15 @@ public class Main {
         Scanner s = new Scanner(System.in);
         Hash hash = new Hash();
         hash.ler();
+        hash.salvar();
+        System.out.println("Contatos lidos e salvos"); //na hash e no arquivo
         
         int opcao;
         menu();
         opcao = s.nextInt();
         
         String nome;
-        int telefone;
+        String telefone;
         String cidade;
         String pais;
         
@@ -53,9 +55,8 @@ public class Main {
                     nome = s.nextLine();
                     
                     System.out.println("\nDigite número de telefone: ");
-                    telefone = s.nextInt();
+                    telefone = s.nextLine();
                     
-                    s.nextLine(); //pegando residuo
                     System.out.println("\nDigite a cidade: ");
                     cidade = s.nextLine();
 
@@ -64,6 +65,7 @@ public class Main {
                     
                     Contato d = new Contato(nome, telefone, cidade, pais);
                     hash.inserir(d);
+                    System.out.println("Contato inserido com sucesso!");
 
                     break;
 
@@ -84,9 +86,8 @@ public class Main {
                         
                         System.out.println("\nSeu número de telefone antigo era: " + l.getTelefone());
                         System.out.println("\nDigite seu novo número de telefone: ");
-                        telefone = s.nextInt();
+                        telefone = s.nextLine();
 
-                        s.nextLine(); //pegando residuo
                         System.out.println("\nSua cidade antiga era: " + l.getCidade());
                         System.out.println("\nDigite sua nova cidade: ");
                         cidade = s.nextLine();
@@ -112,5 +113,18 @@ public class Main {
             menu();
             opcao = s.nextInt();
         }
-    } 
+        System.out.println("Quantidade de colisões: ");
+        System.out.println(hash.qtdColisoes);
+        
+        System.out.println("\nImprimindo os nomes dos contatos armazenados na tabela hash:");
+        
+        for (Elemento e : hash.hashContato){
+            if (e.c != null){
+                
+                System.out.println(e.c.getNomeCompleto());
+            }
+        }
+            
+    }
+        
 }
