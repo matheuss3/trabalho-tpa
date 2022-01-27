@@ -2,11 +2,11 @@ package tabelahash;
 
 public class Contato {
     private String nomeCompleto;
-    private int telefone;
+    private String telefone;
     private String cidade;
     private String pais;
     
-    public Contato(String nome, int tel, String cid, String pais){
+    public Contato(String nome, String tel, String cid, String pais){
         
         this.setNomeCompleto(nome);
         this.setTelefone(tel);
@@ -18,7 +18,7 @@ public class Contato {
         
         String l[] = linha.split(",");
         this.nomeCompleto = l[0];
-        this.telefone = Integer.parseInt(l[1]);
+        this.telefone = l[1];
         this.cidade = l[2];
         this.pais = l[3]; 
     }
@@ -36,11 +36,11 @@ public class Contato {
         this.nomeCompleto = nomeCompleto;
     }
 
-    public int getTelefone() {
+    public String getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(int telefone) {
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 
