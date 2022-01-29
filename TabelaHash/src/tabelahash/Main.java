@@ -116,14 +116,9 @@ public class Main {
         System.out.println("Quantidade de colisões: ");
         System.out.println(hash.qtdColisoes);
         
-        System.out.println("\nImprimindo os nomes dos contatos armazenados na tabela hash:");
-        
-        for (Elemento e : hash.hashContato){
-            if (e.c != null){
-                
-                System.out.println(e.c.getNomeCompleto());
-            }
-        }
+        System.out.println("\nImprimindo quantidade de contatos armazenados na hash:");
+        int qtd = hash.qtdContatosTabela();
+        System.out.println(qtd);
             
     }
         
