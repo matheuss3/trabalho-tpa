@@ -33,6 +33,12 @@ public class Hash {
             chave += i * letra;
             i++;
         }
+//        while (chave > MAXtamanho){  //para não passar do tamanho da tabela
+//            chave = 1000 - chave;
+//            if (chave < 0){
+//                chave = 0;
+//            }
+//        }
 
         return chave;
     }
@@ -58,17 +64,19 @@ public class Hash {
         Elemento e = hashContato.get(chave);  //pega o elemento armazenado na hash
 
         Contato c1 = localizar(c.getNomeCompleto());
-        if (c1 != null) {
-            System.out.println("Contato Existente");
+        if (c1 != null) { //nao permite contato com o mesmo nome
+//            System.out.println("Contato Existente");
             return;
         }
 
         if (e.ocupado == false){ //posição vazia
+            System.out.println("Sempre entro aq?");
             e.ocupado = true;    //seta posição para ocupado
             e.c = c;    //armazena o contato
         }
         else{//tratar colisão
-            this.qtdColisoes = this.qtdColisoes + 1;
+            System.out.println("Tratando colisão");
+            this.qtdColisoes ++;
             trataColisao(e,c); //preciso percorrer os proximos nós ate q seja null, dps insiro onde for null
         }
     }
@@ -113,6 +121,24 @@ public class Hash {
         cont.setTelefone(tel);
         cont.setCidade(cid);
         cont.setPais(p); 
+    }
+    
+    public int qtdContatosTabela(){
+        
+        int qtd = 0;
+        for (Elemento e : this.hashContato){
+            if (e.c != null){  //tem contato dentro
+                if(e.listaproximos.isEmpty()){
+                    qtd++;
+                }
+                else{
+                    for (Contato cont : e.listaproximos){
+                        qtd++;
+                    }
+                } 
+            }
+        } 
+        return qtd;
     }
 
     public void salvar(){ //salva dados
