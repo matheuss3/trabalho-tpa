@@ -30,7 +30,7 @@ public class Main {
         /**
          * Arquivo que deseja ordenar
          */
-        String arquivo = "./files/AgendaTeste1M.csv";
+        String arquivo = "./files/Entrada20M.csv";
 
         /**
          * A classe ordenador possui todos os metodos necessários

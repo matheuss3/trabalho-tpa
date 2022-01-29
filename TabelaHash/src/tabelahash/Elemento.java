@@ -5,5 +5,5 @@ import java.util.ArrayList;
 public class Elemento {
     public Contato c;
     public boolean ocupado;
-    public ArrayList<Contato> listaproximos;  
+    public ArrayList<Contato> listaproximos;
 }

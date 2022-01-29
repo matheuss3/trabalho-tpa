@@ -42,7 +42,7 @@ public class Main {
                     
                     if (a != null){
                         System.out.println("\nContato localizado com sucesso!");
-                        hash.imprimeContato(nome);
+                        hash.imprimeContato(a);
                     }
                     else{
                         System.out.println("Nenhum contato foi localizado com o nome de " + nome + "\n");
@@ -98,7 +98,7 @@ public class Main {
 
                         hash.atualizar(telefone,cidade,pais,nome);
                         System.out.println("\nDados atualizados com sucesso!");
-                        hash.imprimeContato(nome);
+                        hash.imprimeContato(l);
                     }
                     else{
                         System.out.println("Contato não foi localizado!");

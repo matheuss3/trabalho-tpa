@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Hash {
     ArrayList<Elemento> hashContato;
-    static int MAXtamanho = 1131071;
+    static int MAXtamanho = 4321;
     public int qtdColisoes;
      
     public Hash(){
@@ -30,15 +30,16 @@ public class Hash {
         int i = 1;
         for (char letra : nomeContato.toCharArray()) { // Converte a String em um array de caracteres "abc" -> ['a', 'b', 'c']
             int ascii =  letra;
-            chave += i * letra;
+            chave += i * ascii;
             i++;
         }
-//        while (chave > MAXtamanho){  //para não passar do tamanho da tabela
-//            chave = 1000 - chave;
-//            if (chave < 0){
-//                chave = 0;
-//            }
-//        }
+        
+        while (chave >= MAXtamanho){  //para não passar do tamanho da tabela
+            chave -= MAXtamanho;
+            if (chave < 0){
+                return 0;
+            }
+        }
 
         return chave;
     }
@@ -48,19 +49,17 @@ public class Hash {
         e.listaproximos.add(c);
     }
     
-    public void imprimeContato(String nome){
-        
-        int chave = calculaChave(nome);
-        Elemento e = hashContato.get(chave);
-        System.out.println("Imprimindo contato de " + e.c.getNomeCompleto());
-        System.out.println("Telefone: " + e.c.getTelefone());
-        System.out.println("Cidade: " + e.c.getCidade());
-        System.out.println("País: " + e.c.getPais());     
+    public void imprimeContato(Contato c){
+        System.out.println("Imprimindo contato de " + c.getNomeCompleto());
+        System.out.println("Telefone: " + c.getTelefone());
+        System.out.println("Cidade: " + c.getCidade());
+        System.out.println("País: " + c.getPais());
     }
 
     public void inserir(Contato c) {  //insere novo contato
         
         int chave = calculaChave(c.getNomeCompleto());
+        System.out.println(chave + " = " + c.getNomeCompleto());
         Elemento e = hashContato.get(chave);  //pega o elemento armazenado na hash
 
         Contato c1 = localizar(c.getNomeCompleto());
@@ -69,8 +68,7 @@ public class Hash {
             return;
         }
 
-        if (e.ocupado == false){ //posição vazia
-            System.out.println("Sempre entro aq?");
+        if (!e.ocupado){ //posição vazia
             e.ocupado = true;    //seta posição para ocupado
             e.c = c;    //armazena o contato
         }
@@ -85,18 +83,17 @@ public class Hash {
         
         int chave = calculaChave(nome);
         Elemento e = hashContato.get(chave);
-        if (e.ocupado == true){ //tem contato dentro
-            if (e.listaproximos.isEmpty()){  //apenas um contato dentro
-                return e.c;
+
+        if (!e.ocupado) return null;
+
+        if (e.c.getNomeCompleto().equals(nome)) return e.c;
+
+        for (Contato cont : e.listaproximos){
+            if (cont.getNomeCompleto().equals(nome)){
+                return cont;
             }
-            else{ //tem que achar qual é pelo nome, uma vez que os nomes não serao iguais
-                for (Contato cont : e.listaproximos){
-                    if (cont.getNomeCompleto().equals(nome)){
-                        return cont;
-                    }
-                }
-            }   
         }
+
         return null;
     }
     
@@ -127,15 +124,8 @@ public class Hash {
         
         int qtd = 0;
         for (Elemento e : this.hashContato){
-            if (e.c != null){  //tem contato dentro
-                if(e.listaproximos.isEmpty()){
-                    qtd++;
-                }
-                else{
-                    for (Contato cont : e.listaproximos){
-                        qtd++;
-                    }
-                } 
+            if (e.ocupado){  //tem contato dentro
+                qtd += 1 + e.listaproximos.size();
             }
         } 
         return qtd;
@@ -144,7 +134,7 @@ public class Hash {
     public void salvar(){ //salva dados
         
         try{       
-            FileWriter fw = new FileWriter("./src/arquivos/contatos1.csv");
+            FileWriter fw = new FileWriter("./arquivos/contatos.csv");
             BufferedWriter bw = new BufferedWriter(fw);
 
             for (Elemento e : this.hashContato){
@@ -167,13 +157,14 @@ public class Hash {
     public void ler(){ //Vou ler o arquivo de contatos (Agenda) e salvar no array
         try{
             
-            FileReader fr = new FileReader("./src/arquivos/contatos1.csv");
+            FileReader fr = new FileReader("./arquivos/contatos.csv");
             BufferedReader br = new BufferedReader(fr);
             String linha = br.readLine();
-            
+            int i = 1;
+            System.out.println(i);
             while (linha != null){
-                
-               Contato c = new Contato(linha); //Apenas precisa criar o contato, a função de inserir já cria o elemento e insere no array             
+                System.out.println(++i);
+                Contato c = new Contato(linha); //Apenas precisa criar o contato, a função de inserir já cria o elemento e insere no array
                inserir(c);
                linha = br.readLine();
             }
